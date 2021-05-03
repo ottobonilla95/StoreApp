@@ -7,8 +7,6 @@ import Swal from "sweetalert2";
 // history
 import history from "../utils/history";
 
-// config
-import { appConfig } from "../config";
 
 const isHandlerEnabled = (config = {}) => {
   if (config.hasOwnProperty("handlerEnabled")) {
@@ -50,6 +48,8 @@ const requestHandler = async (request) => {
       request.headers["Authorization"] = `Bearer ${token}`;
     }
   }
+
+  console.log(request);
   return request;
 };
 const errorHandler = (error) => {
@@ -93,9 +93,8 @@ const successHandler = (response) => {
   }
   return response;
 };
-
 const axiosInstance = axios.create({
-  baseURL: appConfig.baseUrl,
+  baseURL: "http://128.199.43.48/storeapp_api/api",
 });
 
 // Add interceptors

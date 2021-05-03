@@ -6,9 +6,6 @@ import { connect } from "react-redux";
 //Components
 import StoreForm from "./StoreForm";
 
-// lodash
-import _ from "lodash";
-
 // actions
 import { fetchStore, updateStore } from "../../../redux/store/actions";
 
