@@ -34,7 +34,6 @@ class Item(Resource):
 
         raise NotFoundError()
 
-
     @fresh_jwt_required
     def put(self, id):
 
@@ -65,13 +64,6 @@ class Item(Resource):
         return {'item': item_schema.dump(item)}, 200
 
 
-class ItemList(Resource):
-
-    @classmethod
-    def get(self, store_id):
-        return {'items': [item_schema.dump(item) for item in ItemModel.find_by_store_id(store_id)]}
-
-
 class ItemCreation(Resource):
     @jwt_required
     def post(self):
@@ -81,15 +73,9 @@ class ItemCreation(Resource):
         if "image" in item_json:
             image = CloudinaryHandler.LoadImage(item_json["image"])
             item_json["image"] = image
-        
+
         item = item_schema.load(item_json)
 
         item.save_to_db()
 
         return {'item': item_schema.dump(item)}, 200
-
-
-
-      
-
-

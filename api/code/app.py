@@ -15,16 +15,18 @@ from errors.custom_error import CustomException
 app = Flask(__name__)
 
 # Add modules
-app.register_blueprint(store_app)
-app.register_blueprint(auth_app)
+app.register_blueprint(store_app, url_prefix="/api/store")
+app.register_blueprint(auth_app, url_prefix="/api/user")
 
+# CORS
 CORS(app)
-babel = Babel(app)
 
+# babel
+babel = Babel(app)
 
 @app.route("/test")
 def ping():
-    return {"message": "response"}, 200
+    return {"message": "welcome"}, 200
 
 
 @app.route("/testmessage")

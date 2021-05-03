@@ -2,13 +2,13 @@ from db import db
 from datetime import datetime
 from typing import List
 
+
 class ItemModel(db.Model):
 
     __tablename__ = 'item'
 
     id = db.Column(db.Integer, primary_key=True)
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'))
-    store = db.relationship("StoreModel")
     name = db.Column(db.String(80))
     description = db.Column(db.String(80))
     price = db.Column(db.Float(precision=2))
@@ -20,14 +20,10 @@ class ItemModel(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
-    def find_by_store_id(cls, _id) -> "ItemModel":
-        return cls.query.filter_by(store_id=_id)
-    
-    @classmethod
     def get_all(cls) -> List["ItemModel"]:
         return cls.query.all()
 
-    def save_to_db(self)  -> None:
+    def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()
 

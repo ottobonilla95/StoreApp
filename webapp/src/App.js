@@ -1,39 +1,27 @@
 import React from "react";
-import NavMenu from "./layout/NavMenu";
+
+// router
 import { Redirect, Router, Switch, Route } from "react-router-dom";
+
+// history
 import history from "./utils/history";
 
 // Components
-// import Home from "./modules/home/Home";
-// import Store from "./modules/store/Store";
-import SignUp from "./modules/auth/SignUp";
-import Routes from "./modules/Routes";
-
-import AppStyle from "./AppStyle.css";
+const Dashboard = React.lazy(() => import("./views"));
+const SignUp = React.lazy(() => import("./views/user/signup"));
 
 function App() {
   return (
-    <>
-      <Router history={history} basename={"/storewebapp"}>
-        <Switch>
-          <Route path="/" exact>
-            <Redirect to="/dashboard" />
-          </Route>
-          <Route path="/dashboard" component={Routes} />
-          <Route path="/signup" component={SignUp} />
-        </Switch>
-      </Router>
-    </>
+    <Router history={history} basename={"/storewebapp"}>
+      <Switch>
+        <Route path="/" exact>
+          <Redirect to="/dashboard" />
+        </Route>
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/signup" component={SignUp} />
+      </Switch>
+    </Router>
   );
 }
 
 export default App;
-
-{
-  /* <Route path="/" exact>
-<Redirect to="/home" />
-</Route>
-<Route path="/signup" component={SingUp} />
-<Route path="/home" component={Home} />
-<Route path="/store" component={Store} /> */
-}

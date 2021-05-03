@@ -1,9 +1,22 @@
 from db import db
+
+# datetime
 from datetime import datetime
+
+# mdoels
 from models.auth.confirmation import ConfirmationModel
+
+# mailgun
 from libs.mailgun import Mailgun
+
+# flask
 from flask import request, url_for
+
+# sqlalchemy
+from sqlalchemy.orm import backref
+
 from requests import Response
+
 
 class UserModel(db.Model):
 
@@ -15,8 +28,8 @@ class UserModel(db.Model):
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     admin = db.Column(db.Boolean, default=0)
 
-    stores = db.relationship(
-        "StoreModel", lazy="dynamic", cascade="all, delete-orphan")
+    stores = db.relationship("StoreModel", lazy=True, cascade="all, delete-orphan",
+                             backref=backref("user", lazy=True))
 
     confirmation = db.relationship(
         "ConfirmationModel", lazy="dynamic", cascade="all, delete-orphan")

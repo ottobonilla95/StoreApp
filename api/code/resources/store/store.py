@@ -1,12 +1,24 @@
-from flask_restful import Resource
+# flask
 from flask import request
+
+# flask_restful
+from flask_restful import Resource
+
+# models
 from models.store.store import StoreModel
 from models.store.item import ItemModel
+
+# schemas
 from schemas.store.store import StoreSchema
+
+# flask_jwt_extended
 from flask_jwt_extended import (
     jwt_required, get_jwt_identity, fresh_jwt_required)
+
 from cdhandler import CloudinaryHandler
 import json
+
+# flask_babel
 from flask_babel import gettext
 
 store_schema = StoreSchema()

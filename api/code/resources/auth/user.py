@@ -54,10 +54,9 @@ class UserRegister(Resource):
             user.send_confirmation_email()
 
             # create token
-            expiration = datetime.datetime.now() + timedelta
 
             access_token = create_access_token(
-                identity=user.id, fresh=True)
+                identity=user.id, expires_delta=False, fresh=True)
 
             refresh_token = create_refresh_token(user.id)
 
@@ -67,7 +66,6 @@ class UserRegister(Resource):
                     "username": user.username,
                     "access_token": access_token,
                     "refresh_token": refresh_token,
-                    "expiration": expiration.isoformat()
                 },
                 "message":  gettext('User successfully create, please confirm your email')
             }, 201
@@ -200,7 +198,7 @@ class UserResetPassword (Resource):
             return {'message': gettext('User not found')}, 404
 
 
-class UserLogin(Resource):
+class UserSignin(Resource):
     def post(self):
 
         try:
@@ -215,13 +213,8 @@ class UserLogin(Resource):
             # compare passwords
             if userFound and custom_pbkdf2.verify(userRecived.password, userFound.password):
 
-                # confirmaion = userFound.most_recent_confirmation
-                # if confirmaion and confirmaion.confirmed:
-
-                expiration = datetime.datetime.now() + timedelta
-
                 access_token = create_access_token(
-                    identity=userFound.id, fresh=True)
+                    identity=userFound.id, expires_delta=False, fresh=True)
 
                 refresh_token = create_refresh_token(userFound.id)
 
@@ -230,7 +223,6 @@ class UserLogin(Resource):
                     "username": userFound.username,
                     "access_token": access_token,
                     "refresh_token": refresh_token,
-                    "expiration": expiration.isoformat()
                 }, 200
 
             return {"message":  gettext("Invalid Credentials")}, 404

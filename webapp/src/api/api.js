@@ -1,7 +1,14 @@
 // import * as moment from "moment";
 import axios from "axios";
+
+// sweetalert2
 import Swal from "sweetalert2";
+
+// history
 import history from "../utils/history";
+
+// config
+import { appConfig } from "../config";
 
 const isHandlerEnabled = (config = {}) => {
   if (config.hasOwnProperty("handlerEnabled")) {
@@ -39,23 +46,6 @@ const requestHandler = async (request) => {
     if (localStorage.getItem("user")) {
       let user = JSON.parse(localStorage.getItem("user"));
       let token = user.access_token;
-
-      // var now = moment();
-      // var expiration = moment(user.expiration);
-
-      // if (expiration.diff(now) <= 0) {
-      //   const api = axios.create({ baseURL: "http://localhost:5000" });
-      //   api.defaults.headers.common[
-      //     "Authorization"
-      //   ] = `Bearer ${user.refresh_token}`;
-      //   let response = await api.post("/tokenrefresh");
-
-      //   token = response.data.access_token;
-      //   user.access_token = token;
-      //   user.expiration = response.data.expiration;
-
-      //   localStorage.setItem("user", JSON.stringify(user));
-      // }
 
       request.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -105,8 +95,7 @@ const successHandler = (response) => {
 };
 
 const axiosInstance = axios.create({
-  baseURL: "http://128.199.43.48/storeapp_webapi",
-  // baseURL: "http://localhost:5000",
+  baseURL: appConfig.baseUrl,
 });
 
 // Add interceptors

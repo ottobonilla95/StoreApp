@@ -1,7 +1,16 @@
 from db import db
+
+# datetime
 from datetime import datetime
+
+# models
 from models.auth.user import UserModel
+
+# flask_sqlalchemy
 from flask_sqlalchemy import Pagination
+from sqlalchemy.orm import backref
+
+# typing
 from typing import List
 import os
 
@@ -14,10 +23,11 @@ class StoreModel(db.Model):
     description = db.Column(db.String(80))
     image = db.Column(db.String(255))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),  nullable=False)
-    user = db.relationship("UserModel")
+
+
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
-    items = db.relationship('ItemModel', lazy=True,
-                            cascade="all, delete-orphan")
+    items = db.relationship(
+        'ItemModel', cascade="all, delete-orphan", lazy="joined")
 
     @classmethod
     def find_by_id(cls, _id) -> "StoreModel":
