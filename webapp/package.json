@@ -31,7 +31,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mkdir -p dist/storeapp && mv build/* dist/storeapp && rm -r build",
+
     "publish": "scp -r ./build/* devuser@128.199.43.48:/var/www/storewebapp",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
